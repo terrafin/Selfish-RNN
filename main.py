@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import argparse
 import time
 import math
@@ -204,7 +205,8 @@ def train(mask=None):
 ###############################################################################
 if args.evaluate:
     print("=> loading checkpoint '{}'".format(args.evaluate))
-    model.load_state_dict(torch.load(args.evaluate))
+    print(args.evaluate)
+    model.load_state_dict(torch.load(args.evaluate, map_location=torch.device('cpu')))
     print('=> testing...')
     test_loss = evaluate(test_data)
     print('=' * 89)
@@ -296,7 +298,7 @@ else:
 
     # Load the best saved model.
     with open(args.save, 'rb') as f:
-        model.load_state_dict(torch.load(args.save))
+        model.load_state_dict(torch.load(args.save, map_location=torch.device('cpu')))
 
     # Run on test data.
     test_loss = evaluate(test_data)
